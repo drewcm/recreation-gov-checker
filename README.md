@@ -6,11 +6,11 @@ This script scrapes the https://recreation.gov website for campsite availabiliti
 
 ## Example Usage
 ```
-$ python camping.py --start-date 2018-07-20 --end-date 2018-07-23 232448 232450 232447 232770
-❌ TUOLUMNE MEADOWS: 0 site(s) available out of 148 site(s)
-🏕 LOWER PINES: 11 site(s) available out of 73 site(s)
-❌ UPPER PINES: 0 site(s) available out of 235 site(s)
-❌ BASIN MONTANA CAMPGROUND: 0 site(s) available out of 30 site(s)
+python camping.py --start-date 2019-07-20 --end-date 2019-07-21 232463 232462 233187
+[2019-07-22 11:07:52] There are no campsites available:
+- 0 of 253 site(s) available at MORAINE PARK CAMPGROUND (232463)
+- 0 of 160 site(s) available at GLACIER BASIN CAMPGROUND (232462)
+- 0 of 54 site(s) available at ASPENGLEN CAMPGROUND (233187)
 ```
 
 You can also read from stdin. Define a file (e.g. `parks.txt`) with IDs like this:

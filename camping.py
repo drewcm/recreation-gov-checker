@@ -7,7 +7,6 @@ import sys
 from datetime import datetime, timedelta
 
 import requests
-from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
@@ -19,16 +18,21 @@ LOG.addHandler(sh)
 
 
 BASE_URL = "https://www.recreation.gov"
+AVAILABILITY_URL = "/camping/campgrounds/{}/availability"
+
 AVAILABILITY_ENDPOINT = "/api/camps/availability/campground/"
 MAIN_PAGE_ENDPOINT = "/api/camps/campgrounds/"
 
 INPUT_DATE_FORMAT = "%Y-%m-%d"
 
-SUCCESS_EMOJI = "🏕"
-FAILURE_EMOJI = "❌"
+SUCCESS_EMOJI = "-"
+FAILURE_EMOJI = "-"
 
 headers = {"User-Agent": UserAgent().random}
 
+
+def format_datetime(date_object):
+    return '{:%Y-%m-%d %H:%M:%S}'.format(date_object)
 
 def format_date(date_object):
     date_formatted = datetime.strftime(date_object, "%Y-%m-%dT00:00:00Z")
@@ -94,6 +98,7 @@ def valid_date(s):
 
 def _main(parks):
     out = []
+    available_park_ids = []
     availabilities = False
     for park_id in parks:
         params = generate_params(args.start_date, args.end_date)
@@ -111,25 +116,36 @@ def _main(parks):
         if current:
             emoji = SUCCESS_EMOJI
             availabilities = True
+            available_park_ids.append(park_id)
         else:
             emoji = FAILURE_EMOJI
 
         out.append(
-            "{} {} ({}): {} site(s) available out of {} site(s)".format(
-                emoji, name_of_site, park_id, current, maximum
+            "{} {} of {} site(s) available at {} ({})".format(
+                emoji, current, maximum, name_of_site, park_id
             )
         )
 
     if availabilities:
         print(
-            "There are campsites available from {} to {}!!!".format(
+            "[{}] There *are* campsites available from {} to {}:".format(
+                format_datetime(datetime.now()),
                 args.start_date.strftime(INPUT_DATE_FORMAT),
                 args.end_date.strftime(INPUT_DATE_FORMAT),
             )
         )
     else:
-        print("There are no campsites available :(")
+        print("[{}] There are no campsites available:".format(format_datetime(
+            datetime.now())))
+
     print("\n".join(out))
+
+    if availabilities:
+        print("\nBooking URL(s):")
+        for park_id in available_park_ids:
+            print(BASE_URL + AVAILABILITY_URL.format(park_id))
+
+    return availabilities
 
 
 if __name__ == "__main__":
@@ -162,7 +178,11 @@ if __name__ == "__main__":
     parks = args.parks or [p.strip() for p in sys.stdin]
 
     try:
-        _main(parks)
+        ret_val = _main(parks)
+        if ret_val:
+            sys.exit(0)
+        else:
+            sys.exit(1)
     except Exception:
         print("Something went wrong")
         raise
