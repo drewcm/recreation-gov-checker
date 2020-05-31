@@ -7,8 +7,8 @@ import sys
 from datetime import datetime, timedelta
 
 import requests
-from fake_useragent import UserAgent
 
+from fake_useragent import UserAgent
 
 LOG = logging.getLogger(__name__)
 formatter = logging.Formatter(

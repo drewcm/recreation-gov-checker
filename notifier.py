@@ -2,13 +2,11 @@
 import random
 import sys
 import time
-
 from hashlib import md5
 
+import twitter
 from recreation import SUCCESS_EMOJI
 from twitter_credentials import twitter_credentials as tc
-
-import twitter
 
 MAX_TWEET_LENGTH = 279
 DELAY_FILE_TEMPLATE = "next_{}.txt"

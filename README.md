@@ -1,8 +1,6 @@
-# Campsite Availability Scraping
+# Campsite and Timed Entry Facility Availability Scraping
 
-**This has been updated to work with the new recreation.gov site and API!!!**
-
-This script scrapes the https://recreation.gov website for campsite availabilities.
+This script uses the https://recreation.gov API for campsite and time-entry facility availabilities.
 
 ## Example Usage
 
@@ -26,10 +24,10 @@ You can also read from stdin. Define a file (e.g. `parks.txt`) with IDs like thi
 
 and then use it like this:
 ```
-python recreation.py --start-date 2018-07-20 --end-date 2018-07-23 --stdin < parks.txt
+python recreation.py --start-date 2020-07-20 --end-date 2020-07-23 --stdin < campgrounds.txt
 ```
 
-### Timed-Entry Search
+### Timed-Entry Facility Search
 ```
 python recreation.py --date 2020-07-21 --timed-entry 300013
 ```
@@ -55,17 +53,17 @@ pip install -r requirements.txt
 ## Development
 This code is formatted using black and isort:
 ```
-black -l 80 --py36 camping.py
-isort camping.py
+black -l 80 --py36 recreation.py
+isort recreation.py
 ```
 
 Feel free to submit pull requests, or look at the original: https://github.com/bri-bri/yosemite-camping
 
 ### Differences from the original
 - Python 3 🐍🐍🐍.
-- Park IDs not hardcoded, passed via the CLI instead.
+- Campground IDs not hardcoded, passed via the CLI instead.
 - Doesn't give you URLs for campsites with availabilities.
-- Works with any park out of the box, not just those in Yosemite like with the original.
+- Works with any campground out of the box, not just those in Yosemite like with the original.
 - **Update 2018-10-21:** Works with the new recreation.gov site.
 
 ## Twitter Notification
@@ -79,7 +77,5 @@ python recreation.py --start-date 2020-07-20 --end-date 2020-07-21 232463 232462
 ```
 
 You'll want to make the app on another account (like a bot account), not your own, so you get notified when the tweet goes out.
-
-I left my API keys in here but don't exploit them ty thanks.
 
 **Thanks to https://github.com/bri-bri/yosemite-camping for getting me most of the way there for the old version.**
