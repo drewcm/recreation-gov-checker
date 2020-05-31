@@ -5,8 +5,12 @@
 This script scrapes the https://recreation.gov website for campsite availabilities.
 
 ## Example Usage
+
+The `recreation.py` script can be used to search for campgrounds or timed-entry facilities.
+
+### Campground Search
 ```
-python camping.py --start-date 2019-07-20 --end-date 2019-07-21 232463 232462 233187
+python recreation.py --start-date 2020-07-20 --end-date 2020-07-21 232463 232462 233187
 [2019-07-22 11:07:52] There are no campsites available:
 - 0 of 253 site(s) available at MORAINE PARK CAMPGROUND (232463)
 - 0 of 160 site(s) available at GLACIER BASIN CAMPGROUND (232462)
@@ -15,20 +19,25 @@ python camping.py --start-date 2019-07-20 --end-date 2019-07-21 232463 232462 23
 
 You can also read from stdin. Define a file (e.g. `parks.txt`) with IDs like this:
 ```
-232447
-232449
-232450
-232448
+232463
+232462
+233187
 ```
+
 and then use it like this:
 ```
-$ python camping.py --start-date 2018-07-20 --end-date 2018-07-23 --stdin < parks.txt
+python recreation.py --start-date 2018-07-20 --end-date 2018-07-23 --stdin < parks.txt
+```
+
+### Timed-Entry Search
+```
+python recreation.py --date 2020-07-21 --timed-entry 300013
 ```
 
 You'll want to put this script into a 5 minute crontab. You could also grep the output for the success emoji (🏕) and then do something in response, like notify you that there is a campsite available. See the "Twitter Notification" section below.
 
-## Getting park IDs
-What you'll want to do is go to https://recreation.gov and search for the campground you want. Click on it in the search sidebar. This should take you to a page for that campground, the URL will look like `https://www.recreation.gov/camping/campgrounds/<number>`. That number is the park ID.
+## Getting campground IDs
+What you'll want to do is go to https://recreation.gov and search for the campground you want. Click on it in the search sidebar. This should take you to a page for that campground, the URL will look like `https://www.recreation.gov/camping/campgrounds/<number>`. That number is the campground ID.
 
 You can also take [this site for a spin](https://pastudan.github.io/national-parks/). Thanks to [pastudan](https://github.com/pastudan)!
 
@@ -66,7 +75,7 @@ If you want to be notified about campsite availabilities via Twitter (they're th
 3. Pipe the output of your command into `notifier.py`. See below for an example.
 
 ```
-python camping.py --start-date 2018-07-20 --end-date 2018-07-23 70926 70928 | python notifier.py @banool1
+python recreation.py --start-date 2020-07-20 --end-date 2020-07-21 232463 232462 233187 | python notifier.py @banool1
 ```
 
 You'll want to make the app on another account (like a bot account), not your own, so you get notified when the tweet goes out.

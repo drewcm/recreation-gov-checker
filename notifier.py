@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 import random
 import sys
 import time
 
 from hashlib import md5
 
-from camping import SUCCESS_EMOJI
+from recreation import SUCCESS_EMOJI
 from twitter_credentials import twitter_credentials as tc
 
 import twitter
